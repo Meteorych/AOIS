@@ -12,7 +12,7 @@ def comparing_length(num1, num2):  # Comparing length of binary codes
 
 def dec_to_bin_straight(n):  # Прямой код
     binary = ""
-    temp1, clone_of_n, tick_of_bits = 0, n, 0
+    tick_of_actions, clone_of_n, tick_of_bits = 0, n, 0
     result = ""
     if abs(n) < 100:
         bit_size = 8
@@ -22,12 +22,12 @@ def dec_to_bin_straight(n):  # Прямой код
         clone_of_n = -n
     if n == 0:
         binary = str(0)
-    while temp2 >= 1:
-        s1 = str(int(temp2 % 2))
+    while clone_of_n >= 1:
+        s1 = str(int(clone_of_n % 2))
         binary = binary + s1
         tick_of_bits += 1
         clone_of_n /= 2
-        temp1 = temp1 + 1
+         tick_of_actions = tick_of_actions + 1
         result = binary[::-1]
     if tick_of_bits < bit_size:
         result = result.zfill(bit_size)
@@ -164,22 +164,22 @@ def define_operation(num1, num2, operation_command):
 
 def division_of_numbers(num1, num2):
     result = ""
-    temp = ""
+    carry_num1 = ""
     num1 = num1.lstrip("0")
     num2 = num2.lstrip("0")
     for i in range(0, len(num1)):
-        temp += num1[i]
+        carry_num1 += num1[i]
         if int(num2) > int(temp):
             result += "0"
         else:
-            r = subtraction(temp, num2)
-            if r == 0:
-                temp = ""
+            surplus = subtraction(temp, num2)
+            if surplus == 0:
+                carry_num1 = ""
                 result += "1"
             else:
-                r = str(r).lstrip("0")
+                surplus = str(r).lstrip("0")
                 result += "1"
-                temp = r
+                carry_num1 = surplus
     return result
 
 
