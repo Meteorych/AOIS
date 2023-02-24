@@ -12,24 +12,24 @@ def comparing_length(num1, num2):  # Comparing length of binary codes
 
 def dec_to_bin_straight(n):  # Прямой код
     binary = ""
-    temp1, temp2, temp3 = 0, n, 0
+    temp1, clone_of_n, tick_of_bits = 0, n, 0
     result = ""
     if abs(n) < 100:
         bit_size = 8
     else:
         bit_size = 16
     if n < 0:
-        temp2 = -n
+        clone_of_n = -n
     if n == 0:
         binary = str(0)
     while temp2 >= 1:
         s1 = str(int(temp2 % 2))
         binary = binary + s1
-        temp3 += 1
-        temp2 /= 2
+        tick_of_bits += 1
+        clone_of_n /= 2
         temp1 = temp1 + 1
         result = binary[::-1]
-    if temp3 < bit_size:
+    if tick_of_bits < bit_size:
         result = result.zfill(bit_size)
     if n < 0:
         result = str(1) + result[1:]
