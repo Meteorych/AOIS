@@ -18,9 +18,9 @@ def dec_to_bin_straight(num):  # Прямой код
         bit_size = 8
     else:
         bit_size = 16
-    if n < 0:
+    if num < 0:
         clone_of_num = -num
-    if n == 0:
+    if num == 0:
         binary = str(0)
     while clone_of_num >= 1:
         zero_or_unit = str(int(clone_of_num % 2))
@@ -31,7 +31,7 @@ def dec_to_bin_straight(num):  # Прямой код
         result = binary[::-1]
     if tick_of_bits < bit_size:
         result = result.zfill(bit_size)
-    if n < 0:
+    if num < 0:
         result = str(1) + result[1:]
     else:
         result = str(0) + result[1:]
