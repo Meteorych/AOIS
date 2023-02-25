@@ -12,7 +12,7 @@ def comparing_length(num1, num2):  # Comparing length of binary codes
 
 def dec_to_bin_straight(num):  # Прямой код
     binary = ""
-    tick_of_actions, clone_of_num, tick_of_bits = 0, n, 0
+    tick_of_actions, clone_of_num, tick_of_bits = 0, num, 0
     result = ""
     if abs(num) < 100:
         bit_size = 8
@@ -23,7 +23,7 @@ def dec_to_bin_straight(num):  # Прямой код
     if n == 0:
         binary = str(0)
     while clone_of_num >= 1:
-        zero_or_unit = str(int(clone_of_n % 2))
+        zero_or_unit = str(int(clone_of_num % 2))
         binary = binary + zero_or_unit
         tick_of_bits += 1
         clone_of_num /= 2
@@ -54,7 +54,7 @@ def subtraction(num1, num2):
             sign_of_result = 1
         else:
             sign_of_result = 0
-    if temp != 0:
+    if sign_of_result != 0:
         result = '01' + result
     if int(result) == 0:
         result = 0
@@ -69,9 +69,9 @@ def dec_to_bin_add(num):  # Дополненный код
         while help_add:
             add_part = result[-i:len(result)]
             if result[-i] == "0":
-                add_part = temp_result.replace('1', '2')
-                add_part = temp_result.replace('0', '1')
-                add_part = temp_result.replace('2', '0')
+                add_part = add_part.replace('1', '2')
+                add_part = add_part.replace('0', '1')
+                add_part = add_part.replace('2', '0')
                 result = result[:-i] + add_part
                 help_add = False
             else:
@@ -83,7 +83,7 @@ def dec_to_bin_add(num):  # Дополненный код
 
 def dec_to_bin_rev(num):  # Обратный код
     sign = ''
-    if n < 0:
+    if num < 0:
         sign += '1'
         result = dec_to_bin_straight(num)
         result = result.replace('1', '2')
@@ -96,15 +96,15 @@ def dec_to_bin_rev(num):  # Обратный код
     return result
 
 
-def from_binary_to_decimal(n):
+def from_binary_to_decimal(num):
     result = 0
-    if n.startswith("1"):
-        result += ((-int(n[1])) * pow(2, (len(n) - 2)))
-        for i in range(2, len(n)):
-            result += ((int(n[i])) * pow(2, (len(n) - (i + 1))))
+    if num.startswith("1"):
+        result += ((-int(num[1])) * pow(2, (len(num) - 2)))
+        for i in range(2, len(num)):
+            result += ((int(num[i])) * pow(2, (len(num) - (i + 1))))
     elif n.startswith("0"):
-        for i in range(0, len(n)):
-            result += (int(n[i]) * pow(2, (len(n) - (i + 1))))
+        for i in range(0, len(num)):
+            result += (int(n[i]) * pow(2, (len(num) - (i + 1))))
     return result
 
 
@@ -139,8 +139,8 @@ def mul_of_bin_numbers(num1, num2):
         if num2[i] == "1":
             multi_column.append(num1)
         else:
-            temp_n1 = num1.replace("1", "0")
-            multi_column.append(temp_n1)
+            element_of_multicolumn = num1.replace("1", "0")
+            multi_column.append(element_of_multicolumn)
     multi_column[:] = [multi_column[i] + "0" * i for i in range(0, len(multi_column))]
     for b in range(0, len(multi_column)):
         result = sum_diff_of_numbers(result, multi_column[b])
@@ -183,14 +183,14 @@ def division_of_numbers(num1, num2):
     return result
 
 
-def _to_fix(n):
-    if n == 0:
+def _to_fix(num):
+    if num == 0:
         return 0
-    int_n = int(n)
+    int_num = int(num)
     i = 0
     mantissa_size = 23
-    fraction_part = n - float(int_n)
-    int_result = dec_to_bin_add(int_n)
+    fraction_part = num - float(int_num)
+    int_result = dec_to_bin_add(int_num)
     if int_result.find("1") == -1:
         result = "0" + "."
     else:
@@ -207,18 +207,18 @@ def _to_fix(n):
     return result
 
 
-def from_decimal_to_float(n):
-    if "1" in n[:n.find(".")]:
+def from_decimal_to_float(num):
+    if "1" in num[:num.find(".")]:
         exp_sign = 1
     else:
         exp_sign = -1
     sign_bit = "0"
-    if n.find("1", 0, n.find(".")) == -1:
-        exp_bits = dec_to_bin_straight(127 + ((n.find("1") - n.find(".")) * exp_sign))[-8:]
+    if n.find("1", 0, num.find(".")) == -1:
+        exp_bits = dec_to_bin_straight(127 + ((num.find("1") - num.find(".")) * exp_sign))[-8:]
     else:
-        exp_bits = dec_to_bin_straight(127 + ((n.find(".") - n.find("1") - 1) * exp_sign))[-8:]
-    n = n[:n.find(".")] + n[n.find(".") + 1:]
-    mantissa = n[n.find("1") + 1:]
+        exp_bits = dec_to_bin_straight(127 + ((num.find(".") - num.find("1") - 1) * exp_sign))[-8:]
+    n = num[:num.find(".")] + num[num.find(".") + 1:]
+    mantissa = num[num.find("1") + 1:]
     result = sign_bit + " " + exp_bits + " " + mantissa
     print("float_form =" + result)
     return result
@@ -268,7 +268,7 @@ def from_float_to_decimal(num):
 
 
 def int_or_float(num):
-    if "." in n:
+    if "." in num:
         result = float(num)
     else:
         result = int(num)
@@ -276,43 +276,43 @@ def int_or_float(num):
 
 
 while True:
-    n1 = (input("Enter the first number:"))
-    n2 = (input("Enter the second number:"))
-    n1 = int_or_float(n1)
-    n2 = int_or_float(n2)
+    num1 = (input("Enter the first number:"))
+    num2 = (input("Enter the second number:"))
+    num1 = int_or_float(num1)
+    num2 = int_or_float(num2)
     number1, number2 = "0", "0"
-    temp_num = 0
+    temp_num_for_change = 0
     operation_command = int(input("Choose the type of operation (1 — summ, 2 — diff, 3 — multiplication, 4 — division, "
                                   "5 — summ of floats):"))
 
-    n1, n2, operation_command = define_operation(n1, n2, operation_command)
+    num1, num2, operation_command = define_operation(num1, num2, operation_command)
 
     command = int(input("The type of code (1 — straight/reversed, 2 — straight/additional, 3 — additional/reversed, "
                         "4 — float):"))
     match command:
         case 1:
-            if n1 < 0 < n2:
-                temp_num = n1
-                n1 = n2
-                n2 = temp_num
-            number1 = dec_to_bin_straight(n1)
-            number2 = dec_to_bin_rev(n2)
-            print("first_number = " + dec_to_bin_straight(n1))
-            print("second_number = " + dec_to_bin_rev(n2))
+            if num1 < 0 < num2:
+                temp_num_for_change = num1
+                num1 = num2
+                num2 = temp_num_for_change
+            number1 = dec_to_bin_straight(num1)
+            number2 = dec_to_bin_rev(num2)
+            print("first_number = " + dec_to_bin_straight(num1))
+            print("second_number = " + dec_to_bin_rev(num2))
         case 2:
-            if n1 < 0 < n2:
-                temp_num = n1
-                n1 = n2
-                n2 = temp_num
-            number1 = dec_to_bin_straight(n1)
-            number2 = dec_to_bin_add(n2)
-            print("first_number = " + dec_to_bin_straight(n1))
-            print("second_number = " + dec_to_bin_add(n2))
+            if num1 < 0 < num2:
+                temp_num_for_change = num1
+                num1 = num2
+                num2 = temp_num_for_change
+            number1 = dec_to_bin_straight(num1)
+            number2 = dec_to_bin_add(num2)
+            print("first_number = " + dec_to_bin_straight(num1))
+            print("second_number = " + dec_to_bin_add(num2))
         case 3:
-            number1 = dec_to_bin_add(n1)
-            number2 = dec_to_bin_rev(n2)
-            print("first_number = " + dec_to_bin_add(n1))
-            print("second_number = " + dec_to_bin_rev(n2))
+            number1 = dec_to_bin_add(num1)
+            number2 = dec_to_bin_rev(num2)
+            print("first_number = " + dec_to_bin_add(num1))
+            print("second_number = " + dec_to_bin_rev(num2))
         case 4:
             pass
 
