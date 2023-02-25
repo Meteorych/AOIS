@@ -177,7 +177,7 @@ def division_of_numbers(num1, num2):
                 carry_num1 = ""
                 result += "1"
             else:
-                surplus = str(r).lstrip("0")
+                surplus = str(surplus).lstrip("0")
                 result += "1"
                 carry_num1 = surplus
     return result
