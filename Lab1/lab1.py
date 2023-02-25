@@ -10,24 +10,24 @@ def comparing_length(num1, num2):  # Comparing length of binary codes
     return num1, num2
 
 
-def dec_to_bin_straight(n):  # Прямой код
+def dec_to_bin_straight(num):  # Прямой код
     binary = ""
-    tick_of_actions, clone_of_n, tick_of_bits = 0, n, 0
+    tick_of_actions, clone_of_num, tick_of_bits = 0, n, 0
     result = ""
-    if abs(n) < 100:
+    if abs(num) < 100:
         bit_size = 8
     else:
         bit_size = 16
     if n < 0:
-        clone_of_n = -n
+        clone_of_num = -num
     if n == 0:
         binary = str(0)
-    while clone_of_n >= 1:
-        s1 = str(int(clone_of_n % 2))
-        binary = binary + s1
+    while clone_of_num >= 1:
+        zero_or_unit = str(int(clone_of_n % 2))
+        binary = binary + zero_or_unit
         tick_of_bits += 1
-        clone_of_n /= 2
-         tick_of_actions = tick_of_actions + 1
+        clone_of_num /= 2
+        tick_of_actions = tick_of_actions + 1
         result = binary[::-1]
     if tick_of_bits < bit_size:
         result = result.zfill(bit_size)
@@ -43,17 +43,17 @@ def subtraction(num1, num2):
     num1 = num1.zfill(max_len)
     num2 = num2.zfill(max_len)
     result = ''
-    temp = 0
+    sign_of_result = 0
     for i in range(max_len - 1, - 1, - 1):
-        num = int(num1[i]) - int(num2[i]) - temp
+        num = int(num1[i]) - int(num2[i]) - sign_of_result
         if num % 2 == 1:
             result = '1' + result
         else:
             result = '0' + result
         if num < 0:
-            temp = 1
+            sign_of_result = 1
         else:
-            temp = 0
+            sign_of_result = 0
     if temp != 0:
         result = '01' + result
     if int(result) == 0:
@@ -61,37 +61,37 @@ def subtraction(num1, num2):
     return result
 
 
-def dec_to_bin_add(n):  # Дополненный код
+def dec_to_bin_add(num):  # Дополненный код
     if n < 0:
-        result = dec_to_bin_rev(n)
+        result = dec_to_bin_rev(num)
         i = 1
         help_add = True
         while help_add:
-            temp_result = result[-i:len(result)]
+            add_part = result[-i:len(result)]
             if result[-i] == "0":
-                temp_result = temp_result.replace('1', '2')
-                temp_result = temp_result.replace('0', '1')
-                temp_result = temp_result.replace('2', '0')
-                result = result[:-i] + temp_result
+                add_part = temp_result.replace('1', '2')
+                add_part = temp_result.replace('0', '1')
+                add_part = temp_result.replace('2', '0')
+                result = result[:-i] + add_part
                 help_add = False
             else:
                 i += 1
     else:
-        result = dec_to_bin_straight(n)
+        result = dec_to_bin_straight(num)
     return result
 
 
-def dec_to_bin_rev(n):  # Обратный код
+def dec_to_bin_rev(num):  # Обратный код
     sign = ''
     if n < 0:
         sign += '1'
-        result = dec_to_bin_straight(n)
+        result = dec_to_bin_straight(num)
         result = result.replace('1', '2')
         result = result.replace('0', '1')
         result = result.replace('2', '0')
     else:
         sign += '0'
-        result = dec_to_bin_straight(n)
+        result = dec_to_bin_straight(num)
     result = sign + result[1:]
     return result
 
@@ -252,13 +252,13 @@ def summ_of_floating(num1, num2):  # сумма чисел с плавающей
     return result
 
 
-def from_float_to_decimal(n):
-    n = n[:n.find(" ")] + n[(n.find(" ") + 1):n.rfind(" ")] + n[n.rfind(" ") + 1:]
+def from_float_to_decimal(num):
+    num = num[:num.find(" ")] + num[(num.find(" ") + 1):num.rfind(" ")] + num[num.rfind(" ") + 1:]
     decimal_mantissa = 0.0
-    for i in range(9, len(n)):
-        decimal_mantissa += int(n[i]) * pow(2, -(i - 8))
-    exp = int(from_binary_to_decimal("0" + n[1:9])) - 127
-    if n[0] == "1":
+    for i in range(9, len(num)):
+        decimal_mantissa += int(num[i]) * pow(2, -(i - 8))
+    exp = int(from_binary_to_decimal("0" + num[1:9])) - 127
+    if num[0] == "1":
         sign_before = "-"
     else:
         sign_before = ""
@@ -267,11 +267,11 @@ def from_float_to_decimal(n):
     return result
 
 
-def int_or_float(n):
+def int_or_float(num):
     if "." in n:
-        result = float(n)
+        result = float(num)
     else:
-        result = int(n)
+        result = int(num)
     return result
 
 
