@@ -169,10 +169,10 @@ def division_of_numbers(num1, num2):
     num2 = num2.lstrip("0")
     for i in range(0, len(num1)):
         carry_num1 += num1[i]
-        if int(num2) > int(temp):
+        if int(num2) > int(carry_num1):
             result += "0"
         else:
-            surplus = subtraction(temp, num2)
+            surplus = subtraction(carry_num1, num2)
             if surplus == 0:
                 carry_num1 = ""
                 result += "1"
@@ -186,15 +186,15 @@ def division_of_numbers(num1, num2):
 def _to_fix(n):
     if n == 0:
         return 0
-    temp1 = int(n)
+    int_n = int(n)
     i = 0
     mantissa_size = 23
-    fraction_part = n - float(temp1)
-    temp2 = dec_to_bin_add(temp1)
-    if temp2.find("1") == -1:
+    fraction_part = n - float(int_n)
+    int_result = dec_to_bin_add(int_n)
+    if int_result.find("1") == -1:
         result = "0" + "."
     else:
-        result = temp2[temp2.find("1"):] + "."
+        result = int_result[int_result.find("1"):] + "."
     while i <= (mantissa_size - len(result)):
         fraction_part *= 2
         if int(fraction_part) == 0:
