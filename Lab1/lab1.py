@@ -62,7 +62,7 @@ def subtraction(num1, num2):
 
 
 def dec_to_bin_add(num):  # Дополненный код
-    if n < 0:
+    if num < 0:
         result = dec_to_bin_rev(num)
         i = 1
         help_add = True
@@ -104,7 +104,7 @@ def from_binary_to_decimal(num):
             result += ((int(num[i])) * pow(2, (len(num) - (i + 1))))
     elif num.startswith("0"):
         for i in range(0, len(num)):
-            result += (int(n[i]) * pow(2, (len(num) - (i + 1))))
+            result += (int(num[i]) * pow(2, (len(num) - (i + 1))))
     return result
 
 
