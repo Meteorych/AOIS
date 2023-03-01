@@ -102,7 +102,7 @@ def from_binary_to_decimal(num):
         result += ((-int(num[1])) * pow(2, (len(num) - 2)))
         for i in range(2, len(num)):
             result += ((int(num[i])) * pow(2, (len(num) - (i + 1))))
-    elif n.startswith("0"):
+    elif num.startswith("0"):
         for i in range(0, len(num)):
             result += (int(n[i]) * pow(2, (len(num) - (i + 1))))
     return result
@@ -213,7 +213,7 @@ def from_decimal_to_float(num):
     else:
         exp_sign = -1
     sign_bit = "0"
-    if n.find("1", 0, num.find(".")) == -1:
+    if num.find("1", 0, num.find(".")) == -1:
         exp_bits = dec_to_bin_straight(127 + ((num.find("1") - num.find(".")) * exp_sign))[-8:]
     else:
         exp_bits = dec_to_bin_straight(127 + ((num.find(".") - num.find("1") - 1) * exp_sign))[-8:]
@@ -263,7 +263,7 @@ def from_float_to_decimal(num):
     else:
         sign_before = ""
     result = sign_before + str((1 + decimal_mantissa) * pow(2, exp))
-    result = str(round(float(result), 2))
+    result = str(round(float(result), 5))
     return result
 
 
@@ -326,7 +326,7 @@ while True:
             number1, number2 = (comparing_length(number1, number2))
             print("binary division = " + str(from_binary_to_decimal(division_of_numbers(number1, number2))))
         case 5:
-            print("summ_floating = " + str(from_float_to_decimal(summ_of_floating(n1, n2))))
+            print("summ_floating = " + str(from_float_to_decimal(summ_of_floating(num1, num2))))
 
     if int(input("Do you want to continue? 1 — Continue, 2 — stop: ")) == 1:
         continue
