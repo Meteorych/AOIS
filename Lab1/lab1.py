@@ -23,8 +23,8 @@ def dec_to_bin_straight(num):  # Прямой код
     if num == 0:
         binary = str(0)
     while clone_of_num >= 1:
-        zero_or_unit = str(int(clone_of_num % 2))
-        binary = binary + zero_or_unit
+        s1 = str(int(clone_of_num % 2))
+        binary = binary + s1
         tick_of_bits += 1
         clone_of_num /= 2
         tick_of_actions = tick_of_actions + 1
@@ -43,18 +43,18 @@ def subtraction(num1, num2):
     num1 = num1.zfill(max_len)
     num2 = num2.zfill(max_len)
     result = ''
-    sign_of_result = 0
+    temp = 0
     for i in range(max_len - 1, - 1, - 1):
-        num = int(num1[i]) - int(num2[i]) - sign_of_result
+        num = int(num1[i]) - int(num2[i]) - temp
         if num % 2 == 1:
             result = '1' + result
         else:
             result = '0' + result
         if num < 0:
-            sign_of_result = 1
+            temp = 1
         else:
-            sign_of_result = 0
-    if sign_of_result != 0:
+            temp = 0
+    if temp != 0:
         result = '01' + result
     if int(result) == 0:
         result = 0
@@ -67,12 +67,12 @@ def dec_to_bin_add(num):  # Дополненный код
         i = 1
         help_add = True
         while help_add:
-            add_part = result[-i:len(result)]
+            temp_result = result[-i:len(result)]
             if result[-i] == "0":
-                add_part = add_part.replace('1', '2')
-                add_part = add_part.replace('0', '1')
-                add_part = add_part.replace('2', '0')
-                result = result[:-i] + add_part
+                temp_result = temp_result.replace('1', '2')
+                temp_result = temp_result.replace('0', '1')
+                temp_result = temp_result.replace('2', '0')
+                result = result[:-i] + temp_result
                 help_add = False
             else:
                 i += 1
@@ -139,8 +139,8 @@ def mul_of_bin_numbers(num1, num2):
         if num2[i] == "1":
             multi_column.append(num1)
         else:
-            element_of_multicolumn = num1.replace("1", "0")
-            multi_column.append(element_of_multicolumn)
+            temp_n1 = num1.replace("1", "0")
+            multi_column.append(temp_n1)
     multi_column[:] = [multi_column[i] + "0" * i for i in range(0, len(multi_column))]
     for b in range(0, len(multi_column)):
         result = sum_diff_of_numbers(result, multi_column[b])
@@ -153,48 +153,53 @@ def define_operation(num1, num2, operation_command):
             pass
         case 2:
             num2 = -num2
-        case 3 | 4:
+        case 3:
             num1 = abs(num1)
             num2 = abs(num2)
         case 4:
+            num1 = abs(num1)
+            num2 = abs(num2)
+            if (num1 == 0) | (num2 == 0):
+                num1 = 0
+                num2 = 0
             if num1 < num2:
-                num1, mum2 = num2, num1
+                num1, num2 = num2, num1
     return num1, num2, operation_command
 
 
 def division_of_numbers(num1, num2):
     result = ""
-    carry_num1 = ""
+    temp = ""
     num1 = num1.lstrip("0")
     num2 = num2.lstrip("0")
     for i in range(0, len(num1)):
-        carry_num1 += num1[i]
-        if int(num2) > int(carry_num1):
+        temp += num1[i]
+        if int(num2) > int(temp):
             result += "0"
         else:
-            surplus = subtraction(carry_num1, num2)
-            if surplus == 0:
-                carry_num1 = ""
+            r = subtraction(temp, num2)
+            if r == 0:
+                temp = ""
                 result += "1"
             else:
-                surplus = str(surplus).lstrip("0")
+                r = str(r).lstrip("0")
                 result += "1"
-                carry_num1 = surplus
+                temp = r
     return result
 
 
 def _to_fix(num):
     if num == 0:
         return 0
-    int_num = int(num)
+    temp1 = int(num)
     i = 0
     mantissa_size = 23
-    fraction_part = num - float(int_num)
-    int_result = dec_to_bin_add(int_num)
-    if int_result.find("1") == -1:
+    fraction_part = num - float(temp1)
+    temp2 = dec_to_bin_add(temp1)
+    if temp2.find("1") == -1:
         result = "0" + "."
     else:
-        result = int_result[int_result.find("1"):] + "."
+        result = temp2[temp2.find("1"):] + "."
     while i <= (mantissa_size - len(result)):
         fraction_part *= 2
         if int(fraction_part) == 0:
@@ -217,7 +222,7 @@ def from_decimal_to_float(num):
         exp_bits = dec_to_bin_straight(127 + ((num.find("1") - num.find(".")) * exp_sign))[-8:]
     else:
         exp_bits = dec_to_bin_straight(127 + ((num.find(".") - num.find("1") - 1) * exp_sign))[-8:]
-    n = num[:num.find(".")] + num[num.find(".") + 1:]
+    num = num[:num.find(".")] + num[num.find(".") + 1:]
     mantissa = num[num.find("1") + 1:]
     result = sign_bit + " " + exp_bits + " " + mantissa
     print("float_form =" + result)
@@ -263,7 +268,6 @@ def from_float_to_decimal(num):
     else:
         sign_before = ""
     result = sign_before + str((1 + decimal_mantissa) * pow(2, exp))
-    result = str(round(float(result), 5))
     return result
 
 
@@ -281,7 +285,7 @@ while True:
     num1 = int_or_float(num1)
     num2 = int_or_float(num2)
     number1, number2 = "0", "0"
-    temp_num_for_change = 0
+    temp_num = 0
     operation_command = int(input("Choose the type of operation (1 — summ, 2 — diff, 3 — multiplication, 4 — division, "
                                   "5 — summ of floats):"))
 
@@ -292,18 +296,18 @@ while True:
     match command:
         case 1:
             if num1 < 0 < num2:
-                temp_num_for_change = num1
+                temp_num = num1
                 num1 = num2
-                num2 = temp_num_for_change
+                num2 = temp_num
             number1 = dec_to_bin_straight(num1)
             number2 = dec_to_bin_rev(num2)
             print("first_number = " + dec_to_bin_straight(num1))
             print("second_number = " + dec_to_bin_rev(num2))
         case 2:
             if num1 < 0 < num2:
-                temp_num_for_change = num1
+                temp_num = num1
                 num1 = num2
-                num2 = temp_num_for_change
+                num2 = temp_num
             number1 = dec_to_bin_straight(num1)
             number2 = dec_to_bin_add(num2)
             print("first_number = " + dec_to_bin_straight(num1))
@@ -332,4 +336,3 @@ while True:
         continue
     else:
         break
-
