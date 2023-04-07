@@ -1,9 +1,8 @@
-from calculating_method import *
 from mccluskey_method import *
 from karno_map import *
 
 
-def choosing_method_of_minimization(sdnf, scnf):
+def choosing_method_of_minimization(sdnf, scnf, res_table_values):
     sdnf, scnf = sdnf.split("+"), scnf.split("*")
     sdnf[:] = [char.strip("(").strip(")") for char in sdnf]
     scnf[:] = [char.strip("(").strip(")") for char in scnf]
@@ -16,11 +15,9 @@ def choosing_method_of_minimization(sdnf, scnf):
             case "mccluskey":
                 res = "Minimized:\nSDNF:" + str(mccluskey_method(sdnf)) + "\nSCNF:" + str(mccluskey_method(scnf))
                 print(res)
-                return 0
             case "table":
-                res = "Minimized:\nSDNF:" + str(table_method(sdnf)) + "\nSCNF:" + str(table_method(scnf))
+                res = "Minimized:" + str(table_method(res_table_values))
                 print(res)
-                return 0
             case "end":
                 break
             case _:

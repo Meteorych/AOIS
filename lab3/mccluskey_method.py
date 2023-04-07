@@ -10,12 +10,14 @@ def mccluskey_method(begin_formula):
                 glued_formula.append(step_of_gluing(a, b))
             else:
                 pass
+    if len(glued_formula) == 0:
+        glued_formula.append(begin_formula[0])
     table = PrettyTable()
     res = table_doing(begin_formula, glued_formula, table)
-    print(f"Glued formula: glued_formula")
+    print(f"Glued formula: {glued_formula}")
     return res
 
-def for_mccluskey_table(begin_formula, glued_formula, table):
+def for_mccluskey_table(begin_formula, glued_formula):
     res_elements, res_elements_final, n = [], [],  1
     for full_sub_formula in begin_formula:
         if full_sub_formula.find("*") == -1:
@@ -23,7 +25,7 @@ def for_mccluskey_table(begin_formula, glued_formula, table):
         else:
             full_sub_formula = full_sub_formula.split(" * ")
         for glued_sub_formula in glued_formula:
-            if comparing_glued_and_begin_formula(full_sub_formula, glued_sub_formula):
+            if comparing_glued_and_begin_formula(full_sub_formula, glued_sub_formula) == 1:
                 res_elements.append(1)
             else:
                 res_elements.append(0)
@@ -35,13 +37,12 @@ def for_mccluskey_table(begin_formula, glued_formula, table):
 def comparing_glued_and_begin_formula(full_sub_formula, glued_sub_formula):
     full_sub_formula = set(full_sub_formula) ^ set(glued_sub_formula)
     if (len(full_sub_formula)) == 1:
-        return True
-    else:
-        return False
+        return 1
+
 
 
 def table_doing(begin_formula, glued_formula, table):
-    res_elements = for_mccluskey_table(begin_formula, glued_formula, table)
+    res_elements = for_mccluskey_table(begin_formula, glued_formula)
     table.add_column("Implicanta", glued_formula)
     n = 0
     for num, x in enumerate(begin_formula):

@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+
 class element_of_formula_SDNF:
     def __init__(self, name):
         self.name = name
@@ -9,6 +10,7 @@ class element_of_formula_SDNF:
         else:
             self.value = "1"
             self.using_value = "1"
+
 
 class element_of_formula_SCNF:
     def __init__(self, name):
@@ -20,6 +22,7 @@ class element_of_formula_SCNF:
             self.value = "0"
             self.using_value = "0"
 
+
 def calculating_method(begin_formula):
     glued_formula = gluing_formula(begin_formula)
     if begin_formula[0].find("*") != -1:
@@ -29,13 +32,16 @@ def calculating_method(begin_formula):
 
 
 def gluing_formula(begin_formula):
-    changed, glued_formula = [], []
+    glued_formula = []
     for a in begin_formula[:-1]:
         for b in begin_formula[begin_formula.index(a) + 1:]:
             if abs(a.count("!") - b.count("!")) == 1 and step_of_gluing(a, b) is not None:
                 glued_formula.append(step_of_gluing(a, b))
             else:
                 pass
+    if len(glued_formula) == 0:
+        glued_formula.append(begin_formula[0])
+    print(f"Glued formula: {glued_formula}")
     return glued_formula
 
 
@@ -59,6 +65,7 @@ def checking_of_extras_SDNF(formula):
     res_formula_as_strings = [str(element) for element in res_formula]
     res_formula = " \\/ ".join(res_formula_as_strings)
     return res_formula
+
 
 # Give values for remain_formula
 def create_remain_elements_summ_SDNF(remain_formula, elements):
@@ -99,11 +106,8 @@ def remain_summ_SDNF(remain_elements_summ):
             literals.append(res_element)
         else:
             res_elements += res_element
-    if res_elements == 0 and len(literals) == 0:
+    if res_elements == 0 and (len(literals) == 0 or all(x[0] == literals[0][0] for x in literals)):
         return False
-    if len(literals) > 0:
-        if all(x[0] == literals[0][0] for x in literals):
-            return False
     return True
 
 
@@ -137,6 +141,7 @@ def checking_of_extras_SCNF(formula):
     res_formula_as_strings = [str(element) for element in res_formula]
     res_formula = " /\\ ".join(res_formula_as_strings)
     return res_formula
+
 
 def uno_elements_SCNF(res_formula, formula):
     for x in res_formula:
@@ -191,9 +196,9 @@ def remain_summ_SCNF(remain_elements_summ):
             literals.append(res_element)
         else:
             res_elements *= res_element
-    if res_elements == 1 and len(literals) == 0:
+    if res_elements == 1 and len(literals) <= 1:
         return False
-    if len(literals) > 0:
+    if len(literals) > 1:
         if all(x[0] == literals[0][0] for x in literals):
             return False
     return True

@@ -16,7 +16,7 @@ def first_step(formula):
     [print("".join(str(list(zip(table_of_truth, res_value_formulas_table))[i]))) for i in
      range(len(res_value_formulas_table))]
     preparations_for_operations(res_value_formulas_table, table_of_truth)
-    return table_of_truth, res_value_formulas_table
+    return res_value_formulas_table
 
 
 def preparations_for_operations(res, table):
@@ -41,7 +41,7 @@ def preparations_for_operations(res, table):
     print(f"SDNF: {SDNF_res}\nSCNF: {SCNF_res}")
     print("Numeric type: " + numeric_SDNF.lstrip(", ") + ");\t" + numeric_SCNF.lstrip(
         ", ") + ");\n" + f"Index: {int(index)}")
-    minimization.choosing_method_of_minimization(SDNF_res, SCNF_res)
+    minimization.choosing_method_of_minimization(SDNF_res, SCNF_res, res)
 
 
 def comparing_table_and_formula(formula, table):
