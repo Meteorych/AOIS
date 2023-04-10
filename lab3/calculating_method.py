@@ -25,6 +25,9 @@ class element_of_formula_SCNF:
 
 def calculating_method(begin_formula):
     glued_formula = gluing_formula(begin_formula)
+    for a in glued_formula:
+        if len(a) > 4:
+            return glued_formula
     if begin_formula[0].find("*") != -1:
         return checking_of_extras_SDNF(glued_formula)
     else:
@@ -40,7 +43,7 @@ def gluing_formula(begin_formula):
             else:
                 pass
     if len(glued_formula) == 0:
-        glued_formula.append(begin_formula[0])
+        glued_formula = deepcopy(begin_formula[:])
     print(f"Glued formula: {glued_formula}")
     return glued_formula
 
@@ -106,9 +109,7 @@ def remain_summ_SDNF(remain_elements_summ):
             literals.append(res_element)
         else:
             res_elements += res_element
-    if res_elements == 0 and (len(literals) == 0 or all(x[0] == literals[0][0] for x in literals)):
-        return False
-    return True
+    return res_elements != 0 or (len(literals) > 0 and all(x[0] == literals[0][0] for x in literals))
 
 
 def step_of_gluing(element_1, element_2):
