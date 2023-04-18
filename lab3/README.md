@@ -7,3 +7,5 @@
 ## Description in English
 
 In this program you should enter function in custon type of view as variable "formula" in <i>main.py</i> file, then goes minimiztion with three methods: <i>calculating</i>, <i>Mccluskey</i> and <i>Karnaugh map</i>. You can choose method in the beginning.
+
+Code is really gross and working only for formulas with 3 variables. 
