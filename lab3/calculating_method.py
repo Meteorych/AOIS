@@ -1,15 +1,14 @@
 from copy import deepcopy
 
-
+#classes of elements from formulas with real values and values that we are using for formulas
 class element_of_formula_SDNF:
     def __init__(self, name):
         self.name = name
         if self.name[0] == "!":
             self.value = "0"
-            self.using_value = "1"
         else:
             self.value = "1"
-            self.using_value = "1"
+        self.using_value = "1"
 
 
 class element_of_formula_SCNF:
@@ -22,7 +21,7 @@ class element_of_formula_SCNF:
             self.value = "0"
             self.using_value = "0"
 
-
+#main function
 def calculating_method(begin_formula):
     glued_formula = gluing_formula(begin_formula)
     for a in glued_formula:
@@ -33,7 +32,7 @@ def calculating_method(begin_formula):
     else:
         return checking_of_extras_SCNF(glued_formula)
 
-
+# main function of gluing process
 def gluing_formula(begin_formula):
     glued_formula = []
     for a in begin_formula[:-1]:
@@ -111,7 +110,7 @@ def remain_summ_SDNF(remain_elements_summ):
             res_elements += res_element
     return res_elements != 0 or (len(literals) > 0 and all(x[0] == literals[0][0] for x in literals))
 
-
+# one step of gluing (with one consituenta)
 def step_of_gluing(element_1, element_2):
     if element_1.find("+") != -1:
         element_1, element_2 = element_1.split(" + "), element_2.split(" + ")
