@@ -96,7 +96,6 @@ class Associative_processor:
             self.convert_to_diagonal()
         print(self.matrix.T)
 
-
     def negative_of_argument(self, num_of_column):
         diagonal_data = self.diagonal
         if diagonal_data is True:
@@ -147,7 +146,8 @@ class Associative_processor:
             self.convert_to_straight()
         for num_of_string, string in enumerate(self.matrix):
             if np.array2string(string, separator='')[1:-1].replace(' ', '')[0:3] == example_data:
-                self.matrix[num_of_string][11:16] = Associative_processor.sum_diff_of_numbers(self.matrix[num_of_string][3:7], self.matrix[num_of_string][7:11])
+                self.matrix[num_of_string][11:16] = Associative_processor.sum_diff_of_numbers(
+                    self.matrix[num_of_string][3:7], self.matrix[num_of_string][7:11])
             if diagonal_data is True:
                 self.convert_to_diagonal()
         print(self.matrix.T)
@@ -167,3 +167,45 @@ class Associative_processor:
                 if value_of_digit == str(matrix_string[pos_of_break + digit]):
                     tick += 1
         return tick
+
+    def choose_read_or_write(self):
+        type_of_operation = int(input("1 -- Read word\n 2 -- Read column\n 3 -- Write word\n 4 -- Write column\n "))
+        match type_of_operation:
+            case 1:
+                self.read_word()
+            case 2:
+                self.read_column()
+            case 3:
+                self.write_word()
+            case 4:
+                self.write_column()
+
+    def read_word(self):
+        num_of_word = int(input("Number of word: "))
+        diagonal_info = self.diagonal
+        if self.diagonal is True:
+            self.convert_to_straight()
+        print(self.matrix[num_of_word])
+        if diagonal_info is True:
+            self.convert_to_diagonal()
+
+    def read_column(self):
+        num_of_col = int(input("Number of column: "))
+        print(self.matrix[num_of_col])
+
+    def write_word(self):
+        word = np.array(list(input("Word:").zfill(16)[:16]), dtype=int)
+        num_of_word = int(input("Number of word: "))
+        diagonal_info = self.diagonal
+        if self.diagonal is True:
+            self.convert_to_straight()
+        self.matrix[num_of_word] = word
+        if diagonal_info is True:
+            self.convert_to_diagonal()
+        print(self.matrix.T)
+
+    def write_column(self):
+        column = np.array(list(input("Column:").zfill(16)[:16]), dtype=int)
+        num_of_col = int(input("Number of column: "))
+        self.matrix[num_of_col] = column
+        print(self.matrix.T)

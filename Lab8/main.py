@@ -15,7 +15,7 @@ def main():
 def choosing_task(processor):
     while True:
         task = int(input("Choose task: \n1 -- searching by accordance\n2 -- convert to diagonal\n3 -- convert to straight\n"
-                         "4 -- logic operations\n5 -- summ of digits\n6 -- The End\n"))
+                         "4 -- logic operations\n5 -- summ of digits\n6 -- Read or write column\n"))
         match task:
             case 1:
                 processor.searching_by_accordance()
@@ -28,9 +28,10 @@ def choosing_task(processor):
             case 4:
                 processor.logic_operations()
             case 5:
-                string = input("Choose column: ")
-                processor.sum_of_fields(string)
+                processor.sum_of_fields()
             case 6:
+                processor.choose_read_or_write()
+            case _:
                 break
 
 
