@@ -35,8 +35,8 @@ class Associative_processor:
             example_data = example_data.zfill(BIT_SIZE)
         print(f"Our data for matching: {example_data}")
         copy_of_matrix, diagonal_data = deepcopy(self.matrix), self.diagonal
-        self.convert_to_straight()
-        self.diagonal = diagonal_data
+        if diagonal_data is True:
+            self.convert_to_straight()
         for num in range(self.matrix.shape[0]):
             tick_of_matching.update(
                 {f"{self.matrix[num]}": self.reccure_algorithm_for_accordance(copy_of_matrix[num], example_data, num)})
@@ -82,6 +82,9 @@ class Associative_processor:
                 self.negative_of_argument(num_of_column)
 
     def positive_of_argument(self, num_of_column):
+        diagonal_data = self.diagonal
+        if diagonal_data is True:
+            self.convert_to_straight()
         argument = input("Input argument: ")
         if len(argument) > BIT_SIZE:
             argument = argument[0:BIT_SIZE]
@@ -89,17 +92,27 @@ class Associative_processor:
             argument = argument.zfill(BIT_SIZE)
         for num_of_string, digit in enumerate(self.matrix[num_of_column]):
             self.matrix[num_of_column][num_of_string] = argument[num_of_string]
+        if diagonal_data is True:
+            self.convert_to_diagonal()
+        print(self.matrix.T)
+
 
     def negative_of_argument(self, num_of_column):
-        argument = input("Input argument: ").replace("1", "2")
+        diagonal_data = self.diagonal
+        if diagonal_data is True:
+            self.convert_to_straight()
+        argument = input("Input argument: ")
         if len(argument) > BIT_SIZE:
             argument = argument[0:BIT_SIZE]
         elif len(argument) < BIT_SIZE:
             argument = argument.zfill(BIT_SIZE)
-        argument = argument.replace("0", "1")
+        argument = argument.replace("1", "2").replace("0", "1")
         argument = argument.replace("2", "0")
         for num_of_string, digit in enumerate(self.matrix[num_of_column]):
             self.matrix[num_of_column][num_of_string] = argument[num_of_string]
+        if diagonal_data is True:
+            self.convert_to_diagonal()
+        print(self.matrix.T)
 
     @staticmethod
     def sum_diff_of_numbers(num1, num2):  # Сумма/разность чисел
@@ -122,17 +135,21 @@ class Associative_processor:
                 carry += 1
         if carry > 0:
             summ = "1" + summ
+        elif carry == 0:
+            summ = "0" + summ
+        summ = np.array([num for num in summ])
         return summ
 
-    def sum_of_fields(self, string):
-        example_data = input("Input your example data: ")
+    def sum_of_fields(self):
+        example_data = input("Input your example data: ")[:3]
         diagonal_data = self.diagonal
-        self.convert_to_straight()
-        for num_of_column, column in enumerate(self.matrix):
-            if column[:3] == example_data[:3]:
-                column[11:16] = Associative_processor.sum_diff_of_numbers(column[3:7], column[7:11]).split()
         if diagonal_data is True:
-            self.convert_to_diagonal()
+            self.convert_to_straight()
+        for num_of_string, string in enumerate(self.matrix):
+            if np.array2string(string, separator='')[1:-1].replace(' ', '')[0:3] == example_data:
+                self.matrix[num_of_string][11:16] = Associative_processor.sum_diff_of_numbers(self.matrix[num_of_string][3:7], self.matrix[num_of_string][7:11])
+            if diagonal_data is True:
+                self.convert_to_diagonal()
         print(self.matrix.T)
 
     def reccure_algorithm_for_accordance(self, matrix_string, data, num_of_string):
